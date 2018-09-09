@@ -1,0 +1,930 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="不只是看客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="我们都知道要写一款精品软件是有难度且很复杂的：不仅要满足特定要求，而且软件还必须具有稳健性，可维护、可测试性强，并且能够灵活适应各种发展与变化。　　因此，我们需要掌握一些常见的架构知识，以便能编写出结构合理的项目。 第一节 结构划分　　本节将介绍如下两个内容： -  包结构的划分 -  类结构的划分 包结构的划分　　当我们在IDE中创建了一个全新的Android项目后，相信不少人接下来要做的就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="架构篇　第二章 项目架构">
+<meta property="og:url" content="http://yoursite.com/android-BY-D02/index.html">
+<meta property="og:site_name" content="不只是看客">
+<meta property="og:description" content="我们都知道要写一款精品软件是有难度且很复杂的：不仅要满足特定要求，而且软件还必须具有稳健性，可维护、可测试性强，并且能够灵活适应各种发展与变化。　　因此，我们需要掌握一些常见的架构知识，以便能编写出结构合理的项目。 第一节 结构划分　　本节将介绍如下两个内容： -  包结构的划分 -  类结构的划分 包结构的划分　　当我们在IDE中创建了一个全新的Android项目后，相信不少人接下来要做的就">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/android/android_o05_01.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_o05_02.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_e01_01.png">
+<meta property="og:updated_time" content="2018-09-09T11:57:13.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="架构篇　第二章 项目架构">
+<meta name="twitter:description" content="我们都知道要写一款精品软件是有难度且很复杂的：不仅要满足特定要求，而且软件还必须具有稳健性，可维护、可测试性强，并且能够灵活适应各种发展与变化。　　因此，我们需要掌握一些常见的架构知识，以便能编写出结构合理的项目。 第一节 结构划分　　本节将介绍如下两个内容： -  包结构的划分 -  类结构的划分 包结构的划分　　当我们在IDE中创建了一个全新的Android项目后，相信不少人接下来要做的就">
+<meta name="twitter:image" content="http://yoursite.com/img/android/android_o05_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/android-BY-D02/"/>
+
+  <title> 架构篇　第二章 项目架构 | 不只是看客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">不只是看客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                架构篇　第二章 项目架构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-29T17:15:30+08:00" content="2015-06-29">
+              2015-06-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android开发-不屈白银/" itemprop="url" rel="index">
+                    <span itemprop="name">Android开发 - 不屈白银</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/android-BY-D02/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="android-BY-D02/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/android-BY-D02/" class="leancloud_visitors" data-flag-title="架构篇　第二章 项目架构">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　我们都知道要写一款精品软件是有难度且很复杂的：不仅要满足特定要求，而且软件还必须具有稳健性，可维护、可测试性强，并且能够灵活适应各种发展与变化。<br>　　因此，我们需要掌握一些常见的架构知识，以便能编写出结构合理的项目。</p>
+<h1 id="第一节-结构划分"><a href="#第一节-结构划分" class="headerlink" title="第一节 结构划分"></a>第一节 结构划分</h1><p><br>　　本节将介绍如下两个内容：</p>
+<pre><code>-  包结构的划分
+-  类结构的划分
+</code></pre><h2 id="包结构的划分"><a href="#包结构的划分" class="headerlink" title="包结构的划分"></a>包结构的划分</h2><p>　　当我们在<code>IDE</code>中创建了一个全新的<code>Android</code>项目后，相信不少人接下来要做的就是，把老项目的代码<code>copy</code>过来、添加各种开源库等，避免重复造轮子。<br>　　这么做没有任何问题，但是笔者认为不应该把它排在第一步，第一步要做的是划分包结构。</p>
+<p>　　假设我们的包名为<code>com.cutler.demo</code>，那么笔者使用下面的包结构：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">com.cutler.demo</span><br><span class="line">  -  common         <span class="comment">// 存放当前项目中公用类。</span></span><br><span class="line">     -  若干子包</span><br><span class="line">     -  Congif.java          <span class="comment">// 保存整个项目中所有的全局“常量”。</span></span><br><span class="line">     -  SystemParams.java    <span class="comment">// 保存整个项目中所有的全局“变量”，以及与那些变量相关的操作方法。</span></span><br><span class="line">  -  model          <span class="comment">// 存放当前项目model类。</span></span><br><span class="line">  -  ui             <span class="comment">// 存放当前项目的UI界面相关的类。</span></span><br><span class="line">  -  util           <span class="comment">// 存放与当前项目无关的工具类，即这些类可以轻松的拿到其他项目中直接使用。</span></span><br><span class="line">  -  MainApplication.java</span><br></pre></td></tr></table></figure></p>
+<p><br>　　<strong>common</strong><br><br>　　<code>com.cutler.demo.common</code>包用来存放与当前项目有关的公用类，它下面可以根据不同的模块划分出不同的子包。比如：</p>
+<pre><code>-  common.receiver：存放广播接收者。
+-  common.view：存放自定义view。
+-  common.util：存放项目内部使用的工具类，即与当前项目的代码紧密耦合。
+</code></pre><p><br>　　<code>Congif.java</code>用来存放当前项目中的<code>全局常量</code>（它没有任何方法），它内部的代码通常是这样的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Config</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 配置文件的名称。</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_SHARE_PRE_FILE_NAME = <span class="string">"share_prefile"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 本机的经纬度。</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_LONGITUDE = <span class="string">"longitude"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_LATITUDE = <span class="string">"latitude"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 媒体下载相关 </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISK_CACHE_INDEX = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISK_CACHE_SIZE = <span class="number">50</span> * <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> IO_BUFFER_SIZE = <span class="number">8</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> HTTP_DOWNLOAD_THREAD_POOL_SIZE = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 本地的缓存目录</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CACHE_MEDIA = <span class="string">"media"</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String CACHE_DOWNLOAD = <span class="string">"download"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　<code>SystemParams.java</code>用来存放整个项目中所有的<code>全局变量</code>，以及与那些变量相关的操作方法，通常它是单例模式（稍后会详细介绍）的。同时，你可以在全局变量的值被修改时，执行持久化操作。</p>
+<p><br>　　<strong>model</strong><br><br>　　<code>com.cutler.demo.model</code>包用来存放<code>model</code>类，它下面可以根据不同的模块划分出不同的子包。比如：</p>
+<pre><code>-  common.user：存放用户相关的类，如：User、Photo（照片）、UserDAO等。
+   -  其中UserDAO用来处理User对象的数据库相关的操作。
+-  common.message：存放消息相关的类，如：Message、Topic（会话）等。
+</code></pre><p><br>　　<strong>ui</strong><br><br>　　<code>com.cutler.demo.ui</code>包用来存放界面相关（<code>Activity</code>、<code>Fragment</code>、<code>Adapter</code>等）的类，它下面可以根据不同的模块划分出不同的子包。比如：</p>
+<pre><code>-  ui.welcome：存放登录相关的类，如：LoginActivity、RegisterActivity等。
+-  ui.message：存放消息相关的类，如：MessageActivity等。
+</code></pre><p><br>　　<strong>util</strong><br><br>　　<code>com.cutler.demo.util</code>包用来存放与当前项目无关的工具类，即这些类可以轻松的拿到其他项目中直接使用。它下面可以根据不同的模块划分出不同的子包。比如：</p>
+<pre><code>-  util.http：存放网络请求相关的类。
+-  util.log：存放日志相关的类。
+</code></pre><p><br>　　因此，如果项目是这样的一个由行和列组成的表结构：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">                   model      ui      common      util </span><br><span class="line">消息模块             xx        xx        xx         xx </span><br><span class="line">用户模块             xx        xx        xx         xx </span><br><span class="line">好友模块             xx        xx        xx         xx </span><br><span class="line">商城模块             xx        xx        xx         xx</span><br></pre></td></tr></table></figure></p>
+<p>　　那么笔者划分包的思路是： 先纵向划分出<code>model</code>、<code>ui</code>、<code>common</code>、<code>util</code>四个顶层包，然后在每个顶层包下面再横向的依据模块来划分子包。</p>
+<h2 id="类结构的划分"><a href="#类结构的划分" class="headerlink" title="类结构的划分"></a>类结构的划分</h2><h3 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h3><p>　　我们现在有个任务，从一个<code>JSON</code>串中解析出一个列表，列表一共三行数据，每一行对应一个学生的信息，并实现下图所示的界面：</p>
+<center><br><img src="/img/android/android_o05_01.png" alt=""><br></center>
+
+<p><br>　　需求很简单，我们现在就列一下执行步骤：</p>
+<pre><code>-  第一步，解析JSON串，然后将JSON串里的数据封装成一组Student对象。
+-  第二步，依次使用每个Student对象来创建表的一行。
+-  第三步，将创建出来的行添加到界面上。
+</code></pre><p><br>　　有了执行步骤后就可以动手写代码了，下面的<code>activity_main.xml</code>用来作为<code>Activity</code>的布局文件。</p>
+<p><br>　　范例1：<code>activity_main.xml</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/rootView"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  使用LinearLayout作为根节点，垂直方向上排列布局。
+</code></pre><p><br>　　范例2：<code>Student</code>类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String sex;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSex</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSex</span><span class="params">(String sex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.sex = sex;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例3：<code>MainActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String json = <span class="string">"[&#123;\"name\":\"张三\",\"age\":24,\"sex\":\"boy\"&#125;,&#123;\"name\":\"李四\",\"age\":25,\"sex\":\"girl\"&#125;,&#123;\"name\":\"王五\",\"age\":26,\"sex\":\"boy\"&#125;]"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取根控件的引用。</span></span><br><span class="line">        LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将json数据解析成一个Student数组</span></span><br><span class="line">        List&lt;Student&gt; studentList = <span class="keyword">new</span> ArrayList&lt;Student&gt;();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            JSONArray jsonArr = <span class="keyword">new</span> JSONArray(json);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; jsonArr.length(); i++) &#123;</span><br><span class="line">                JSONObject jsonObject = jsonArr.getJSONObject(i);</span><br><span class="line">                Student student = <span class="keyword">new</span> Student();</span><br><span class="line">                student.setName(jsonObject.getString(<span class="string">"name"</span>));</span><br><span class="line">                student.setAge(jsonObject.getInt(<span class="string">"age"</span>));</span><br><span class="line">                student.setSex(jsonObject.getString(<span class="string">"sex"</span>));</span><br><span class="line">                studentList.add(student);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JSONException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 手动创建每一个学生的控件，然后将他们添加到界面中去。</span></span><br><span class="line">        LinearLayout.LayoutParams params;</span><br><span class="line">        <span class="keyword">for</span> (Student student : studentList) &#123;</span><br><span class="line">            LinearLayout layout = <span class="keyword">new</span> LinearLayout(<span class="keyword">this</span>);</span><br><span class="line">            layout.setOrientation(LinearLayout.HORIZONTAL);</span><br><span class="line">            <span class="comment">// 姓名</span></span><br><span class="line">            TextView nameTV = <span class="keyword">new</span> TextView(<span class="keyword">this</span>);</span><br><span class="line">            params = <span class="keyword">new</span> LinearLayout.LayoutParams(<span class="number">0</span>, LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">            params.weight = <span class="number">1</span>;</span><br><span class="line">            nameTV.setText(student.getName());</span><br><span class="line">            layout.addView(nameTV,params);</span><br><span class="line">            <span class="comment">// 年龄</span></span><br><span class="line">            TextView ageTV = <span class="keyword">new</span> TextView(<span class="keyword">this</span>);</span><br><span class="line">            params = <span class="keyword">new</span> LinearLayout.LayoutParams(<span class="number">0</span>, LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">            params.weight = <span class="number">1</span>;</span><br><span class="line">            ageTV.setText(String.valueOf(student.getAge()));</span><br><span class="line">            layout.addView(ageTV,params);</span><br><span class="line">            <span class="comment">// 性别</span></span><br><span class="line">            TextView sexTV = <span class="keyword">new</span> TextView(<span class="keyword">this</span>);</span><br><span class="line">            sexTV.setText(student.getSex());</span><br><span class="line">            params = <span class="keyword">new</span> LinearLayout.LayoutParams(<span class="number">0</span>, LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">            params.weight = <span class="number">1</span>;</span><br><span class="line">            layout.addView(sexTV,params);</span><br><span class="line">            <span class="comment">// 将它们三个控件添加到主布局中</span></span><br><span class="line">            rootView.addView(layout, <span class="keyword">new</span> LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,</span><br><span class="line">                    LinearLayout.LayoutParams.WRAP_CONTENT));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　虽然<code>onCreate()</code>方法中的代码有点多，但至少我们已经实现需求了。</p>
+<p>　　不过如果你是一个有经验的开发人员，可能就会发现这段代码不利于重用，也就是说如果在其它界面也需要显示这个列表，我们就得把这一整段代码给<code>copy</code>过去，这是不能忍的。<br>　　因此，我们接下来要对这段代码进行重构。</p>
+<h3 id="代码重构"><a href="#代码重构" class="headerlink" title="代码重构"></a>代码重构</h3><p><br><strong>重构Model</strong></p>
+<p>　　首先，我们从解析<code>JSON</code>这块入手。</p>
+<p>　　问题是这样的：如果在项目的多个地方都需要将一个<code>JSON</code>转换成<code>Student</code>对象，那我们就得把上面的解析代码（<code>15~27</code>行）<code>copy</code>多份，如果某一天服务端同事告诉我们说<code>Student</code>的某个字段名要修改，同时项目中有<code>11</code>个地方都存在这段代码，那么我们就得依次将每个地方的代码都修改一遍，有任何一个遗漏的都会导致程序出<code>bug</code>。</p>
+<p><br>　　第一步，修改<code>Student</code>类，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String sex;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSex</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSex</span><span class="params">(String sex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.sex = sex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此方法用来从一个JSONObject对象中解析出一个Student对象。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Student <span class="title">parseJSON</span><span class="params">(JSONObject jsonObject)</span> </span>&#123;</span><br><span class="line">        Student student = <span class="keyword">new</span> Student();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            student.name = jsonObject.getString(<span class="string">"name"</span>);</span><br><span class="line">            student.age = jsonObject.getInt(<span class="string">"age"</span>);</span><br><span class="line">            student.sex = jsonObject.getString(<span class="string">"sex"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// 如果解析失败则打印出日志，并将对象置null。</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            student = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> student;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  以后我们就可以在项目的任何地方都调用这个静态方法，就算服务端返回的字段名改变了我们也可以很方便的适配。
+-  请注意举一反三，本范例这个方法接收的是JSONObject的类型的参数，你可以通过方法重载等其它方式来达到你的需求。
+</code></pre><p><br>　　第二步，增加一个<code>StudentList</code>类。它用来表示一组<code>Student</code>对象，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentList</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxCount;   <span class="comment">// 用来分页。 咱们暂时不使用它。</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;Student&gt; studentList;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Student&gt; <span class="title">getStudentList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> studentList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> StudentList <span class="title">parseJSON</span><span class="params">(String json)</span></span>&#123;</span><br><span class="line">        StudentList inst = <span class="keyword">new</span> StudentList();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            inst.studentList = <span class="keyword">new</span> ArrayList&lt;Student&gt;();</span><br><span class="line">            JSONArray jsonArr = <span class="keyword">new</span> JSONArray(json);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; jsonArr.length(); i++) &#123;</span><br><span class="line">                Student student = Student.parseJSON(jsonArr.getJSONObject(i));</span><br><span class="line">                <span class="keyword">if</span>(student != <span class="keyword">null</span>)&#123;</span><br><span class="line">                    inst.studentList.add(student);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JSONException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> inst;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  在Student类中有一个maxCount属性暂时没用到，当需要分页显示学生信息时会用到它，这里之所以加它是为了向读者展示StudentList类可以扩展很多属性。
+</code></pre><p><br>　　第三步，更新<code>MainActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String json = <span class="string">"[&#123;\"name\":\"张三\",\"age\":24,\"sex\":\"boy\"&#125;,&#123;\"name\":\"李四\",\"age\":25,\"sex\":\"girl\"&#125;,&#123;\"name\":\"王五\",\"age\":26,\"sex\":\"boy\"&#125;]"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从json中解析出一个StudentList对象。</span></span><br><span class="line">        StudentList sList = StudentList.parseJSON(json);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 手动创建每一个学生的控件，然后将他们添加到界面中去。</span></span><br><span class="line">        LinearLayout.LayoutParams params;</span><br><span class="line">        <span class="keyword">for</span> (Student student : sList.getStudentList()) &#123;</span><br><span class="line">            LinearLayout layout = <span class="keyword">new</span> LinearLayout(<span class="keyword">this</span>);</span><br><span class="line">            layout.setOrientation(LinearLayout.HORIZONTAL);</span><br><span class="line">            <span class="comment">// 姓名</span></span><br><span class="line">            TextView nameTV = <span class="keyword">new</span> TextView(<span class="keyword">this</span>);</span><br><span class="line">            params = <span class="keyword">new</span> LinearLayout.LayoutParams(<span class="number">0</span>, LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">            params.weight = <span class="number">1</span>;</span><br><span class="line">            nameTV.setText(student.getName());</span><br><span class="line">            layout.addView(nameTV,params);</span><br><span class="line">            <span class="comment">// 年龄</span></span><br><span class="line">            TextView ageTV = <span class="keyword">new</span> TextView(<span class="keyword">this</span>);</span><br><span class="line">            params = <span class="keyword">new</span> LinearLayout.LayoutParams(<span class="number">0</span>, LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">            params.weight = <span class="number">1</span>;</span><br><span class="line">            ageTV.setText(String.valueOf(student.getAge()));</span><br><span class="line">            layout.addView(ageTV,params);</span><br><span class="line">            <span class="comment">// 性别</span></span><br><span class="line">            TextView sexTV = <span class="keyword">new</span> TextView(<span class="keyword">this</span>);</span><br><span class="line">            sexTV.setText(student.getSex());</span><br><span class="line">            params = <span class="keyword">new</span> LinearLayout.LayoutParams(<span class="number">0</span>, LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">            params.weight = <span class="number">1</span>;</span><br><span class="line">            layout.addView(sexTV,params);</span><br><span class="line">            <span class="comment">// 将它们三个控件添加到主布局中</span></span><br><span class="line">            rootView.addView(layout, <span class="keyword">new</span> LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,</span><br><span class="line">                    LinearLayout.LayoutParams.WRAP_CONTENT));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  此时MainActivity中从JSON串里解析出Student对象只需要一行代码了。
+-  代码重构目的不只是想让原来需要3行完成的功能改成1行，更主要的是要让代码的结构变得更加合理，方便扩展、重用。
+-  因此虽然现在MainActivity中的代码只有1行，但是在Student等其他地方的代码却多了，不过这没关系，因为代码的可扩展性、可读性以及可重用性变强了。
+</code></pre><p><br><strong>重构View</strong></p>
+<p>　　接下来，我们重构一下<code>View</code>这块。</p>
+<p>　　从<code>MainActivity</code>中我们可以看到，有一个<code>for</code>循环依次为每行创建一个<code>LinearLayout</code>对象，而<code>LinearLayout</code>中又包含<code>姓名</code>、<code>年龄</code>、<code>性别</code>三个子控件，这些控件都是通过代码来创建的，这也不利于代码的重用。<br>　　我们可以把这个<code>LinearLayout</code>给放到<code>xml</code>文件中，这样在项目的其它地方就可以直接通过导入<code>xml</code>来使用这三个子控件了。</p>
+<p><br>　　第一步，创建<code>inflate_student_item.xml</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/nameTV"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/ageTV"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/sexTV"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  Android程序的设计讲究逻辑和视图分离，因而我们应该尽可能的将控件放到xml文件中来写。
+</code></pre><p><br>　　第二步，更新<code>MainActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String json = <span class="string">"[&#123;\"name\":\"张三\",\"age\":24,\"sex\":\"boy\"&#125;,&#123;\"name\":\"李四\",\"age\":25,\"sex\":\"girl\"&#125;,&#123;\"name\":\"王五\",\"age\":26,\"sex\":\"boy\"&#125;]"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从json中解析出一个StudentList对象。</span></span><br><span class="line">        StudentList sList = StudentList.parseJSON(json);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 手动创建每一个学生的控件，然后将他们添加到界面中去。</span></span><br><span class="line">        <span class="keyword">for</span> (Student student : sList.getStudentList()) &#123;</span><br><span class="line">            LinearLayout layout = (LinearLayout) LayoutInflater.from(<span class="keyword">this</span>).inflate(R.layout.inflate_student_item, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 姓名</span></span><br><span class="line">            TextView nameTV = (TextView) layout.findViewById(R.id.nameTV);</span><br><span class="line">            nameTV.setText(student.getName());</span><br><span class="line">            <span class="comment">// 年龄</span></span><br><span class="line">            TextView ageTV = (TextView) layout.findViewById(R.id.ageTV);</span><br><span class="line">            ageTV.setText(String.valueOf(student.getAge()));</span><br><span class="line">            <span class="comment">// 性别</span></span><br><span class="line">            TextView sexTV = (TextView) layout.findViewById(R.id.sexTV);</span><br><span class="line">            sexTV.setText(student.getSex());</span><br><span class="line">            <span class="comment">// 将布局添加到主布局中</span></span><br><span class="line">            rootView.addView(layout, <span class="keyword">new</span> LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,</span><br><span class="line">                    LinearLayout.LayoutParams.WRAP_CONTENT));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  此时MainActivity中的代码就进一步减少了，不过事情还没完，还可以再进一步优化。
+</code></pre><p><br>　　虽然我们把控件移动到<code>xml</code>中了，但是当其它界面也需要显示这个列表时，我们还是需要将上面的<code>for</code>循环中的代码给<code>copy</code>过去，还是会有不少的重复代码。<br>　　解决的方法就是：进一步把这个列表给封装成一个控件。</p>
+<p><br>　　第三步，添加<code>MyStudentListView</code>类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStudentListView</span> <span class="keyword">extends</span> <span class="title">LinearLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> StudentList list;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyStudentListView</span><span class="params">(Context context, StudentList list)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        <span class="comment">// 垂直方式排列子元素</span></span><br><span class="line">        setOrientation(VERTICAL);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Student student : list.getStudentList()) &#123;</span><br><span class="line">            LinearLayout layout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.inflate_student_item, <span class="keyword">null</span>);</span><br><span class="line">            <span class="comment">// 姓名</span></span><br><span class="line">            TextView nameTV = (TextView) layout.findViewById(R.id.nameTV);</span><br><span class="line">            nameTV.setText(student.getName());</span><br><span class="line">            <span class="comment">// 年龄</span></span><br><span class="line">            TextView ageTV = (TextView) layout.findViewById(R.id.ageTV);</span><br><span class="line">            ageTV.setText(String.valueOf(student.getAge()));</span><br><span class="line">            <span class="comment">// 性别</span></span><br><span class="line">            TextView sexTV = (TextView) layout.findViewById(R.id.sexTV);</span><br><span class="line">            sexTV.setText(student.getSex());</span><br><span class="line">            <span class="comment">// 将它们三个控件添加到主布局中</span></span><br><span class="line">            addView(layout, <span class="keyword">new</span> LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,</span><br><span class="line">                    LinearLayout.LayoutParams.WRAP_CONTENT));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  我们把这个Student列表封装成一个View类，这样一来项目的其它地方如果也需要使用这个控件，只需要传递过来一个StudentList对象就可以了。
+</code></pre><p><br>　　第四步，更新<code>MainActivity</code>类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String json = <span class="string">"[&#123;\"name\":\"张三\",\"age\":24,\"sex\":\"boy\"&#125;,&#123;\"name\":\"李四\",\"age\":28,\"sex\":\"girl\"&#125;,&#123;\"name\":\"王五\",\"age\":26,\"sex\":\"boy\"&#125;]"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 从json中解析出一个StudentList对象。</span></span><br><span class="line">        StudentList sList = StudentList.parseJSON(json);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 手动创建每一个学生的控件，然后将他们添加到界面中去。</span></span><br><span class="line">        rootView.addView(<span class="keyword">new</span> MyStudentListView(<span class="keyword">this</span>, sList));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  此时MainActivity的代码就少很多了，也清晰很多。
+</code></pre><h2 id="模式介绍"><a href="#模式介绍" class="headerlink" title="模式介绍"></a>模式介绍</h2><p>　　至此我们就完成了代码重构，整个代码结构变的十分简洁，唯一的遗憾可能就是多出了好几个类。不过从经验上来看，一个上千行代码的<code>Activity</code>是很难维护的，因此如果一定要选择的话，我们更能接受多添加几个类。</p>
+<p><br>　　开发时我们会将软件划分成多个功能模块，并遵循<code>“高内聚低耦合”</code>的原则：</p>
+<pre><code>-  高内聚就是一个模块内各个元素彼此结合的紧密程度高，即一个软件模块是由相关性很强的代码组成，只负责一项任务，也就是常说的单一责任原则。
+-  对于低耦合，粗浅的理解是：一个完整的系统，模块与模块之间，尽可能的使其独立存在。也就是说，让每个模块，尽可能的独立完成某个特定的子功能。模块与模块之间的接口，尽量的少而简单。如果某两个模块间的关系比较复杂的话，最好首先考虑进一步的模块划分。
+</code></pre><p>　　划分模块的好处就是，当某个模块出现问题时，我只需要修改、调试该模块即可，而不用牵扯到其他模块。<br>　　若把所有代码都写在一个类里，则一旦出了问题，排查的难度就会很大，而且修改时还很容易导致其他问题（因为代码多、乱，容易扰乱程序员的思路）。</p>
+<p><br>　　其实我们现在的代码结构就已经遵循了<code>MVC</code>设计模式的规范了，接下来我们就开始具体介绍一下<code>MVC</code>模式。<br>　　在此之前，我们来回答了一个终极问题：<br>　　问：<code>“为什么要用MVC？”</code><br>　　答：因为<code>MVC</code>是一个遵循了<code>“高内聚低耦合”</code>原则的模式，它提出了代码分层的思想，十分符合主流开发思路、社会主义核心价值观，因而我们使用它。</p>
+<p><br>　　提示：</p>
+<pre><code>-  本范例主旨是为了讲解代码的分层思路，实际开发中我们完全可以使用ListView来实现这个功能。
+-  ListView比我们上面的代码抽象的更合理，它将它所要显示的数据以及每个数据的绘制工作都交给了一个Adapter对象，而我们则是默认的将每个数据的绘制工作写死在MyStudentListView的构造方法里了。
+</code></pre><h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><p>　　<code>MVC</code>全名是<code>Model View Controller</code>，百度百科上说它不应该称为<code>设计模式</code>，而应该称为<code>框架</code>，在此我们就不关心到底该称它是什么，只研究它的实现方法。</p>
+<p><br>　　<code>MVC</code>把代码分为<code>3</code>个核心的模块：模型(<code>model</code>)、视图(<code>view</code>)、控制器(<code>controller</code>)，这三个模块分别担当不同的任务。</p>
+<pre><code>-  Model它负责与领域相关的逻辑处理代码，也可以说是逻辑层，或者领域层。
+-  View只负责界面显示。
+-  Controller负责把View和Model联系起来，它的主要职责就是处理用户输入。
+</code></pre><p><br>　　下图表示它们三者之间的依赖关系：</p>
+<center><br><img src="/img/android/android_o05_02.png" alt="MVC关系图"><br></center>
+
+<p><br>　　图释：</p>
+<pre><code>-  通常Controller会是一个Activity，我们会在Controller里面来实例化Model和View，并持有它们的引用（上图中实线表示强引用）。
+   -  前面写的MainActivity类就属于Controller。
+-  View负责界面显示，它所显示的数据是从Model中获取到的，当用户操作View触发事件时，View会调用Controller进行处理。
+   -  前面写的MyStudentListView类、xml布局文件都属于View。
+-  Model负责管理数据，当Model的数据有改变，会通知View更新界面。
+   -  具体的来说，Model里维护了一个观察者列表，在View被初始化的同时，View将自己注册为Model的观察者，当Model的某个字段更新的时候，Model会通知所有侦听了该事件的View。
+   -  上面写的Student、StudentList类都属于Model，只不过咱们并没有让它们维护一个观察者列表。
+</code></pre><p><br>　　<code>MVC</code>的其中一个缺点便是没有明确的定义，所以不同的实现（比如<code>Struts</code>和<code>http://ASP.NET MVC</code>）细节上都是不一样的。</p>
+<h3 id="MVP"><a href="#MVP" class="headerlink" title="MVP"></a>MVP</h3><p>　　咱们错开晦涩难懂的理论，直接通过实例来介绍<code>MVP</code>（<code>Model View Presenter</code>）模式，关于此模式，笔者认为了解即可。</p>
+<p><br><strong>问题是这样的：</strong><br>　　前面已经说了<code>Activity</code>是<code>Controller</code>，<code>布局文件</code>和<code>自定义View</code>则对应<code>View</code>。<br>　　但是仔细想想<code>View</code>其实能做的事情特别少，实际上关于布局文件中的数据绑定的操作，事件处理的代码都在<code>Activity</code>中，造成了<code>Activity</code>既像<code>View</code>又像<code>Controller</code>。<br>　　<code>Activity</code>既要去完成<code>Controller</code>的职责，又要去完成<code>View</code>的部分职责，这违反了咱们所提倡的<code>单一责任</code>原则。<br>　　因此，我们索性把<code>Activity</code>视为<code>View</code>的一部分，让它专注于<code>View</code>相关的职责，而把它的<code>Controller</code>职责放到另一个类中去。</p>
+<p><br><strong>登录界面</strong><br>　　我们要实现一个登录界面，界面中有用户名和密码两个文本框和一个登录按钮。<br>　　按照现在的思路，<code>Activity</code>将只负责界面显示、事件处理，用户名密码的校验和登录等操作都应该放到另一个类中，我们叫它<code>LoginPresenter</code>。</p>
+<p><br>　　范例1：<code>LoginPresenter</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginPresenter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LoginView mView;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginPresenter</span><span class="params">(LoginView view)</span></span>&#123;</span><br><span class="line">        mView = view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doLogin</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 获取用户名和密码。</span></span><br><span class="line">        String username = mView.getUsername();</span><br><span class="line">        String password = mView.getPassword();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 校验用户名和密码的格式。</span></span><br><span class="line">        <span class="keyword">if</span>(TextUtils.isEmpty(username) || TextUtils.isEmpty(password))&#123;</span><br><span class="line">            mView.showErrorMessage(<span class="string">"请输入用户名和密码！"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 此处应该发送网络请求，为了简便直接本地判断了。</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="string">"1"</span>.equals(username) &amp;&amp; <span class="string">"1"</span>.equals(password))&#123;</span><br><span class="line">            <span class="comment">// 此处应该依据服务端返回的json来构造一个User对象，为了简便直接本地构造了。</span></span><br><span class="line">            User user = <span class="keyword">new</span> User();</span><br><span class="line">            user.setId(<span class="number">1</span>);</span><br><span class="line">            user.setNickname(<span class="string">"Tom"</span>);</span><br><span class="line">            <span class="comment">// 通知View登录成功。</span></span><br><span class="line">            mView.onLoginComplete(user);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mView.showErrorMessage(<span class="string">"用户名或密码错误！"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 此接口中定义了View必须要提供的几个方法，将由LoginActivity实现此接口。</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoginView</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showErrorMessage</span><span class="params">(String error)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoginComplete</span><span class="params">(User user)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　范例2：<code>LoginActivity</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">LoginPresenter</span>.<span class="title">LoginView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> EditText usernameEt;</span><br><span class="line">    <span class="keyword">private</span> EditText passwordEt;</span><br><span class="line">    <span class="keyword">private</span> LoginPresenter mPresenter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 把Activity的引用传过去的话，就得注意是否存在内存泄露的问题，最好是在onDestroy方法里置空引用。</span></span><br><span class="line">        mPresenter = <span class="keyword">new</span> LoginPresenter(<span class="keyword">this</span>);</span><br><span class="line">        usernameEt = (EditText) findViewById(R.id.username);</span><br><span class="line">        passwordEt = (EditText) findViewById(R.id.password);</span><br><span class="line">        findViewById(R.id.loginBtn).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 登录按钮被点击时，调用LoginPresenter类去处理。</span></span><br><span class="line">                mPresenter.doLogin();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> usernameEt.getText().toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> passwordEt.getText().toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showErrorMessage</span><span class="params">(String error)</span> </span>&#123;</span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, error, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoginComplete</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 在这个方法中，可以启动一个新的Activity。</span></span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">"登录成功"</span>+user.getNickname(), Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br>　　各位应该能发现了，在<code>MVP</code>模式的<code>P</code>（<code>LoginPresenter</code>）所做的工作和<code>MVC</code>中的<code>C</code>是一样的。<br>　　在上面的代码中，我们实现了<code>Controller</code>与<code>View</code>之间的解耦，并通过一个接口（<code>LoginView</code>）来限制<code>LoginActivity</code>必须要提供的方法，<code>LoginActivity</code>不会执行任何逻辑操作，它仅处理事件和<code>UI</code>相关的操作。</p>
+<p><br><strong>提示：</strong><br>　　许多时候并不是一种模式不好，而是因为人没办法执行，比如不容易理解，我们就会选择容易理解的方式。<br>　　因此笔者认为，在<code>MVP</code>中虽然代码看起来清晰了很多，但是写起来却很麻烦（已有不少人吐槽），所以不需要所有的界面都按照<code>MVP</code>模式这种风格来编写，灵活应变即可。</p>
+<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>　　<code>MVVM</code>是<code>Model-View-ViewModel</code>的简写。<br>　　<code>MV-X</code>本质都是一样的，重点还是在于<code>MV</code>的桥梁要靠<code>X</code>来牵线，<code>X</code>的不同对应着<code>M</code>与<code>V</code>的数据传递的流程不同。</p>
+<center><br><img src="/img/android/android_e01_01.png" alt="MVVM关系图"><br></center>
+
+<p>　　<code>MVVM</code>模式使用的是<code>数据绑定</code>基础架构，即数据绑定是将一个用户界面元素（控件）的属性绑定到一个类型（对象）实例上的某个属性的方法。<br>　　例如，如果你有一个<code>User</code>对象，那么就可以把<code>User</code>的<code>“name”</code>属性绑定到一个<code>TextView</code>的<code>“text”</code>属性上，随后对<code>TextView</code>的<code>text</code>属性的更改将“传播”到<code>User</code>的<code>name</code>属性，而对<code>User</code>的<code>name</code>属性的更改同样会“传播”到<code>TextView</code>的<code>text</code>属性。</p>
+<p><br>　　<code>MVVM</code>早已被广泛应用了，现在<code>Google</code>为我们封装好了一个开源库，方便我们在<code>Android</code>中使用<code>MVVM</code>模式，<a href="https://developer.android.com/tools/data-binding/guide.html" target="_blank" rel="noopener">官方教程</a>。</p>
+<p>　　笔者推荐阅读<a href="http://aswifter.com/2015/07/04/android-data-binding-1/" target="_blank" rel="noopener">《Android中的Data Binding初探 (一)》</a>和<a href="http://www.jianshu.com/p/92f0efd695e7" target="_blank" rel="noopener">《AndroidDataBinding-MVVM模式》</a>。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="http://baike.baidu.com/view/3507915.htm" target="_blank" rel="noopener">百度百科 - MVVM</a></li>
+<li><a href="http://baike.baidu.com/view/159779.htm" target="_blank" rel="noopener">百度百科 - 数据绑定</a></li>
+<li><a href="http://baike.baidu.com/view/3082578.htm" target="_blank" rel="noopener">百度百科 - 高内聚低耦合</a></li>
+<li><a href="http://baike.baidu.com/view/5432454.htm?fromtitle=MVC%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F&amp;fromid=8160955&amp;type=syn" target="_blank" rel="noopener">百度百科 - MVC框架</a></li>
+<li><a href="http://blog.csdn.net/lmj623565791/article/details/46596109" target="_blank" rel="noopener">浅谈 MVP in Android</a></li>
+<li><a href="http://www.zhihu.com/question/20148405" target="_blank" rel="noopener">你对MVC、MVP、MVVM 三种组合模式分别有什么样的理解？</a></li>
+</ul>
+<p><br><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.jpg" alt="键盘 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/base-01/" rel="next" title="第一章 C语言">
+                <i class="fa fa-chevron-left"></i> 第一章 C语言
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/android-BY-D01/" rel="prev" title="架构篇　第一章 设计模式">
+                架构篇　第一章 设计模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="android-BY-D02/"
+     data-title="架构篇　第二章 项目架构"
+     data-content=""
+     data-url="http://yoursite.com/android-BY-D02/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="android-BY-D02/"
+           data-title="架构篇　第二章 项目架构" data-url="http://yoursite.com/android-BY-D02/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="键盘" />
+          <p class="site-author-name" itemprop="name">键盘</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://weishu.me/" title="weishu" target="_blank">weishu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ryanhoo.github.io/" title="ryanhoo" target="_blank">ryanhoo</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-结构划分"><span class="nav-number">1.</span> <span class="nav-text">第一节 结构划分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#包结构的划分"><span class="nav-number">1.1.</span> <span class="nav-text">包结构的划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类结构的划分"><span class="nav-number">1.2.</span> <span class="nav-text">类结构的划分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题引入"><span class="nav-number">1.2.1.</span> <span class="nav-text">问题引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码重构"><span class="nav-number">1.2.2.</span> <span class="nav-text">代码重构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模式介绍"><span class="nav-number">1.3.</span> <span class="nav-text">模式介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC"><span class="nav-number">1.3.1.</span> <span class="nav-text">MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVP"><span class="nav-number">1.3.2.</span> <span class="nav-text">MVP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVVM"><span class="nav-number">1.3.3.</span> <span class="nav-text">MVVM</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">键盘</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
