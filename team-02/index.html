@@ -1,0 +1,795 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="不只是看客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二章 Code Review">
+<meta property="og:url" content="http://yoursite.com/team-02/index.html">
+<meta property="og:site_name" content="不只是看客">
+<meta property="og:description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-18T10:09:15.654Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第二章 Code Review">
+<meta name="twitter:description" content="本文主要参考了如下两篇博客，链接地址如下：  从CODE REVIEW 谈如何做技术 知乎 - 腾讯Bugly  　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。 CR 到底有没有用?　　关于这个问题，网上有两种观点：  第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。第二种认为没用。  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/team-02/"/>
+
+  <title> 第二章 Code Review | 不只是看客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">不只是看客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                第二章 Code Review
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-11-13T17:37:49+08:00" content="2019-11-13">
+              2019-11-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                    <span itemprop="name">职业技能树</span>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+          
+             <span id="/team-02/" class="leancloud_visitors" data-flag-title="第二章 Code Review">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　本文主要参考了如下两篇博客，链接地址如下：</p>
+<ul>
+<li><a href="https://coolshell.cn/articles/11432.html" target="_blank" rel="noopener">从CODE REVIEW 谈如何做技术</a></li>
+<li><a href="https://www.zhihu.com/question/41089988/answer/135943884" target="_blank" rel="noopener">知乎 - 腾讯Bugly</a></li>
+</ul>
+<p>　　笔者将通过问答的方式来介绍 Code Review（后面简称CR）相关内容。</p>
+<h1 id="CR-到底有没有用"><a href="#CR-到底有没有用" class="headerlink" title="CR 到底有没有用?"></a>CR 到底有没有用?</h1><p><br>　　关于这个问题，网上有两种观点：<br></p>
+<blockquote>
+<p>第一种认为有用。它可以帮助统一规范、知识共享、发现bug等等。<br>第二种认为没用。<br>  1）业务繁忙、工期很紧的团队，写代码的时间都不够，也就没有时间Review。<br>  2）需求老变，代码的生命周期太短，写好的代码没有意义，只要能通过测试就行，反正与绩效无关。<br>  3）另外，楼上不从实际情况出发，光打正义的嘴炮实在太过于自慰了。</p>
+</blockquote>
+<p><br>　　各有各的道理，但 CR 作为业界公认的最佳实践，如果每个团队都能运用起来，固然是最好的，但是由于这项活动跟“人”这个因素密切挂钩，所以，它是否能有效运作跟<font color="red">团队状态、技术信仰</font>和<font color="red">领导者诉求</font>等都有莫大关系。</p>
+<p>　　所以 CR 到底有没有用得看团队的具体情况。</p>
+<h1 id="哪些团队更适合-CR"><a href="#哪些团队更适合-CR" class="headerlink" title="哪些团队更适合 CR ?"></a>哪些团队更适合 CR ?</h1><p><br>　　从代码质量提升的角度上看，以下类型的团队，笔者建议把 CR 活动有效运作起来：</p>
+<p><br>　　<strong>1、技术驱动型团队</strong></p>
+<blockquote>
+<p>一般涉及系统底层逻辑较多，功能路径难以被测试覆盖，而产品质量问题很多时候是致命的，所以这样的团队更多需要开发编码的严谨性和相关代码质量的保证活动。</p>
+</blockquote>
+<p><br>　　<strong>2、公共服务型团队</strong></p>
+<blockquote>
+<p>一般服务于多个团队，一旦出现质量问题影响范围会比较广，所以除了在测试方面加以把关外，通过CR活动来提升开发质量是非常有必要的。</p>
+</blockquote>
+<p><br>　　<strong>3、测试缺失型团队</strong></p>
+<blockquote>
+<p>这样的团队由于缺乏测试环节，质量问题带到线上的风险会很高，强烈建议在开发环节做好自检工作。</p>
+</blockquote>
+<p><br>　　<strong>4、新人密集型团队</strong></p>
+<blockquote>
+<p>新人的代码可读性往往是比较差的，特别需要组织能及时给予纠正，帮助新人养成良好的编码习惯。同时如果团队产出的代码可读性较高时，新人也可以更快上手工作。</p>
+</blockquote>
+<p><br>　　<strong>5、任何有主观意愿的团队</strong></p>
+<blockquote>
+<p>这样的团队或领导者认同 CodeReview 的意义，或团队成员对代码质量提升有追求。</p>
+</blockquote>
+<p><br>　　当然大家也不必须对号入座，若某个模块测试人员无法覆盖到，找队友进行简单的CR还是非常有必要的。一般来说，如团队主观意愿没有问题，就可以大胆推行开展。</p>
+<h1 id="进行-CR-有哪些好处"><a href="#进行-CR-有哪些好处" class="headerlink" title="进行 CR 有哪些好处?"></a>进行 CR 有哪些好处?</h1><p><br>　　<strong>1、提高代码质量</strong></p>
+<blockquote>
+<p>如果将代码分为以下六个级别的话：<br>1）可编译<br>2）可运行<br>3）可测试<br>4）可读<br>5）可维护<br>6）可重用<br>通过自动化测试的代码只能达到第3级，而通过CR的代码少会在第4级甚至更高。</p>
+</blockquote>
+<p><br>　　<strong>2、传递知识</strong></p>
+<blockquote>
+<p>CR可以让其它并不熟悉代码的人知道作者的意图和想法，从而可以在以后轻松维护代码。<br>程序员可以通过CR用来确认自己的设计和实现是否简单合理，从而达到相互学习对方的长处和优点的目的。</p>
+</blockquote>
+<p><br>　　<strong>3、发现测试无法覆盖到的BUG</strong></p>
+<blockquote>
+<p>最常见的就是内存泄漏、接口请求频繁、代码执行效率等的问题了。</p>
+</blockquote>
+<h1 id="如何有效进行-CR-？"><a href="#如何有效进行-CR-？" class="headerlink" title="如何有效进行 CR ？"></a>如何有效进行 CR ？</h1><p><br>　　要想在团队内部有效运作CR活动，必备四要素。</p>
+<p><br>　　<strong>1、代码规范</strong></p>
+<p>　　如果一开始不定义好团队Coding标准，那在检视过程中就会存在两种情况：</p>
+<blockquote>
+<p>1) 各种不同的意见很难快速达成一致，影响CR效率。<br>2) 大家不会重视代码规范的检视。比如命名不规范、可读性较差等问题。</p>
+</blockquote>
+<p>　　如果您是 Android 开发者的话，笔者推荐<a href="https://github.com/alibaba/p3c" target="_blank" rel="noopener">《阿里巴巴Java开发手册》</a>，里面也有相应的 AndroidStudio 插件，可以实时监测代码是否符合规范。</p>
+<p><br>　　<strong>2、踩坑经历表</strong></p>
+<p>　　其实就是一个 CheckList 。</p>
+<p>　　一个团队并不是所有人都是老司机，有很多同学是没有CR经验的，他们往往不知道应该重点 check哪些点。这个时候结合自身业务特点和团队之前踩过的坑，制定一个 CheckList 是非常必要的: </p>
+<blockquote>
+<p>什么写法可能导致性能低下？哪个接口要慎用？哪些设计方式需要规避？什么习惯容易引发内存泄漏？</p>
+</blockquote>
+<p>　　这样可以让经验不足者在不知道要 Review 什么时，能有的放矢，过程中逐步积累起经验。</p>
+<p><br>　　<strong>3、总结优化</strong></p>
+<blockquote>
+<p>我们看到很多团队的CR活动坚持不下来或逐步流于形式，其实最主要原因是过程中缺乏定期回顾和总结。<br>因此TeamLeader需要定期的搜集意见然后进行总结，分析问题，解决问题，持续优化。</p>
+</blockquote>
+<p><br>　　<strong>4、激励机制</strong></p>
+<p>　　由于CR本身跟人的经验或者意识都有很大关系，很多时候我们会为调动不起开发同学的积极性而烦恼，所以为了让大家更好的参与这个活动，我们一般都需要制定相应的激励机制。</p>
+<blockquote>
+<p>1) 和绩效轻微的挂钩<br>2) 在定期回顾的基础上根据CR的实际情况对表现积极的同学进行一定的礼品奖励<br>3) 团队每月会从CR发现问题数等纬度进行质量之星选举，同样有礼品</p>
+</blockquote>
+<p><br>　　总之，这四个因素对成功运作CR活动都非常关键，但每一项里面的内容具体要如何定义，团队在参考业界做法的基础上可根据实际情况进行一定的定制。</p>
+<h1 id="具体-Review-的流程和内容是什么？"><a href="#具体-Review-的流程和内容是什么？" class="headerlink" title="具体 Review 的流程和内容是什么？"></a>具体 Review 的流程和内容是什么？</h1><p><br>　　Review 的内容以及时长，是因团队而异的，推荐：</p>
+<blockquote>
+<p>1) 每次会议时长不超过1小时。（因为据说那个一个正常人的膀胱可以容纳尿液的最长限度）<br>2) 尽量不要 Review 大篇幅的代码。因为要Review的代码越多，那么要重构，重写的代码就会越多。而越不被程序作者接受的建议也会越多，唾沫口水战也会越多。<br>3) 越接近软件发布的最终期限，代码也就不能改得太多。</p>
+</blockquote>
+<p>　　流程上的话，推荐代码的作者按照如下顺序：</p>
+<blockquote>
+<p>1) 介绍这段代码是干什么用的<br>2) 介绍骨干代码<br>3) 介绍最后Review完成的代码</p>
+</blockquote>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><br>　　通常 Code Review 最终的作用将归到促进工程师日常代码交流和人员的成长上面来，与此同时作为辅助手段来对产品质量进行把关。 但一般来说，很多团队在 Code Review 前期重点会是找问题（代码规范、潜在缺陷、BUG，代码设计等等），而后期随着问题的逐渐减少和习惯的逐步养成，工程师交流文化的营造将转化成重点，中期当有大批新人加入时，问题找茬将又上升为重点，如此复始。 </p>
+<p><br><br></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="team-02/"
+           data-title="第二章 Code Review" data-url="http://yoursite.com/team-02/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="键盘" />
+          <p class="site-author-name" itemprop="name">键盘</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">59</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://weishu.me/" title="weishu" target="_blank">weishu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ryanhoo.github.io/" title="ryanhoo" target="_blank">ryanhoo</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CR-到底有没有用"><span class="nav-number">1.</span> <span class="nav-text">CR 到底有没有用?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#哪些团队更适合-CR"><span class="nav-number">2.</span> <span class="nav-text">哪些团队更适合 CR ?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进行-CR-有哪些好处"><span class="nav-number">3.</span> <span class="nav-text">进行 CR 有哪些好处?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何有效进行-CR-？"><span class="nav-number">4.</span> <span class="nav-text">如何有效进行 CR ？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体-Review-的流程和内容是什么？"><span class="nav-number">5.</span> <span class="nav-text">具体 Review 的流程和内容是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">键盘</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
