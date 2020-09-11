@@ -1,0 +1,810 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="http://www.gov.cn/" title="不只是看客" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本章来讲解一下 Android 设备上获取设备唯一 ID 的各种方法。 第一节 MAC　　MAC 地址也叫物理地址、硬件地址，由网络设备制造商生产时烧录在网卡中。　　MAC 地址则是 48 位的(6字节)，通常表示为 12 个 16 进制数，每 2 个 16 进制数之间用冒号隔开。如：  08:00:20:0A:8C:6D  　　其前 3 字节是 IEEE 的注册管理机构给不同厂家分配的代码，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技巧篇 第二章 设备唯一标识">
+<meta property="og:url" content="http://yoursite.com/android-total-004/index.html">
+<meta property="og:site_name" content="不只是看客">
+<meta property="og:description" content="本章来讲解一下 Android 设备上获取设备唯一 ID 的各种方法。 第一节 MAC　　MAC 地址也叫物理地址、硬件地址，由网络设备制造商生产时烧录在网卡中。　　MAC 地址则是 48 位的(6字节)，通常表示为 12 个 16 进制数，每 2 个 16 进制数之间用冒号隔开。如：  08:00:20:0A:8C:6D  　　其前 3 字节是 IEEE 的注册管理机构给不同厂家分配的代码，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/android/android_total004_001.png">
+<meta property="og:image" content="http://yoursite.com/img/android/android_total004_002.png">
+<meta property="og:updated_time" content="2020-09-10T12:21:41.774Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="技巧篇 第二章 设备唯一标识">
+<meta name="twitter:description" content="本章来讲解一下 Android 设备上获取设备唯一 ID 的各种方法。 第一节 MAC　　MAC 地址也叫物理地址、硬件地址，由网络设备制造商生产时烧录在网卡中。　　MAC 地址则是 48 位的(6字节)，通常表示为 12 个 16 进制数，每 2 个 16 进制数之间用冒号隔开。如：  08:00:20:0A:8C:6D  　　其前 3 字节是 IEEE 的注册管理机构给不同厂家分配的代码，">
+<meta name="twitter:image" content="http://yoursite.com/img/android/android_total004_001.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/android-total-004/"/>
+
+  <title> 技巧篇 第二章 设备唯一标识 | 不只是看客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?53b4b0b5aeb5df5e4fb6263a58d8e1a9";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">不只是看客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-feedback">
+          <a href="/feedback" rel="section">
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                技巧篇 第二章 设备唯一标识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-08-28T15:51:24+08:00" content="2020-08-28">
+              2020-08-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                    <span itemprop="name">Android - 04 - 综合开发</span>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+
+          
+          
+             <span id="/android-total-004/" class="leancloud_visitors" data-flag-title="技巧篇 第二章 设备唯一标识">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　本章来讲解一下 Android 设备上获取设备唯一 ID 的各种方法。</p>
+<h1 id="第一节-MAC"><a href="#第一节-MAC" class="headerlink" title="第一节 MAC"></a>第一节 MAC</h1><p><br>　　MAC 地址也叫物理地址、硬件地址，由网络设备制造商生产时烧录在网卡中。<br>　　MAC 地址则是 48 位的(6字节)，通常表示为 12 个 16 进制数，每 2 个 16 进制数之间用冒号隔开。如：</p>
+<blockquote>
+<p>08:00:20:0A:8C:6D</p>
+</blockquote>
+<p>　　其前 3 字节是 IEEE 的注册管理机构给不同厂家分配的代码，区分不同的厂家，后3字节由厂家自行分配。<br>　　不用担心厂商不够用，每个厂商可以从注册机构那申请多个代码，<a href="http://standards-oui.ieee.org/oui/oui.txt" target="_blank" rel="noopener">点击这里查询</a> 。</p>
+<p><br>　　范例1：Android 6 以下获取 MAC 地址 。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 必须申请 android.permission.ACCESS_WIFI_STATE 权限</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getMac</span><span class="params">(Context paramContext)</span> </span>&#123;</span><br><span class="line">    WifiManager wifiManager = (WifiManager) paramContext.getSystemService(Context.WIFI_SERVICE);</span><br><span class="line">    WifiInfo wifiInfo = wifiManager.getConnectionInfo();</span><br><span class="line">    <span class="keyword">if</span> (wifiInfo != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> wifiInfo.getMacAddress();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  如果不申请权限则会闪退。
+</code></pre><p><br>　　从 Android 6 开始，为给用户提供更严格的数据保护，<code>WifiInfo.getMacAddress()</code>方法和<code>BluetoothAdapter.getAddress()</code>方法现在会返回常量值“ 02:00:00:00:00:00 ”；<a href="https://developer.android.com/about/versions/marshmallow/android-6.0-changes#behavior-hardware-id" target="_blank" rel="noopener">《官方文档》</a>。</p>
+<p><br>　　范例2：Android 6 及以上获取 MAC 地址 。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 必须申请 android.permission.ACCESS_WIFI_STATE 权限</span></span><br><span class="line"><span class="comment">// 必须申请 android.permission.INTERNET 权限</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getMacFromHardware</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        List&lt;NetworkInterface&gt; all = Collections.list(NetworkInterface.getNetworkInterfaces());</span><br><span class="line">        <span class="keyword">for</span> (NetworkInterface nif : all) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!nif.getName().equalsIgnoreCase(<span class="string">"wlan0"</span>)) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">byte</span>[] macBytes = nif.getHardwareAddress();</span><br><span class="line">            <span class="keyword">if</span> (macBytes == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            StringBuilder res1 = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">byte</span> b : macBytes) &#123;</span><br><span class="line">                res1.append(String.format(<span class="string">"%02X:"</span>, b));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (res1.length() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                res1.deleteCharAt(res1.length() - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> res1.toString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"02:00:00:00:00:00"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  其中 ACCESS_WIFI_STATE 和 INTERNET 都属于普通权限，在6.0以上不需要动态申请。
+</code></pre><p><br>　　Android 将权限分为三种保护级：普通、签名和危险权限，保护级别影响着是否需要运行时权限请求。</p>
+<blockquote>
+<p>普通权限：<br>对用户隐私或其他应用的操作带来的风险很小。例如，设置时区的权限就是普通权限。如果应用在清单中声明需要普通权限，系统会在安装时自动向应用授予该权限。系统不会提示用户授予普通权限，用户也无法撤消这些权限。</p>
+<p>签名权限：<br>系统在安装时授予这些应用权限，但仅会在尝试使用某权限的应用签名证书为定义该权限的同一证书时才会授予。注意：有些签名权限不适合第三方应用使用。</p>
+<p>危险权限：<br>应用需要的数据或资源涉及用户隐私信息，或者可能对用户存储的数据或其他应用的操作产生影响。例如，能够读取用户的联系人属于危险权限。如果应用声明其需要危险权限，必须由用户向应用明确授予该权限。在用户批准该权限之前，应用无法提供依赖于该权限的功能。为了使用危险权限，应用必须在运行时提示用户授予权限。</p>
+</blockquote>
+<p><br>　　更多关于权限的介绍请阅读<a href="https://developer.android.com/guide/topics/permissions/overview#normal-dangerous" target="_blank" rel="noopener">《官方文档》</a>。<br><br>　　另外，MAC 地址是可以修改的，只要可以修改，就可能存在不唯一的情况。同时网上有人说，在当前没打开WiFi的情况下获取得到的MAC地址值为空，不过这个场景笔者没有重现出来。</p>
+<p>　　小提示：目前工信部要求App在获取用户明确授权之前，不能私自搜集MAC地址，笔者目前已知友盟、头条相关的SDK在初始化时会搜集，所以推荐将它们的初始化后移。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="https://baike.baidu.com/item/MAC%E5%9C%B0%E5%9D%80" target="_blank" rel="noopener">百度百科 - MAC</a></li>
+</ul>
+<h1 id="第二节-UUID"><a href="#第二节-UUID" class="headerlink" title="第二节 UUID"></a>第二节 UUID</h1><p><br>　　UUID 是通用唯一识别码（Universally Unique Identifier）的缩写，是一种软件建构的标准。目前最广泛应用的 UUID ，是微软公司的全局唯一标识符（GUID）。</p>
+<p>　　UUID 是一个 128 比特( 32 字节)的数值，它是基于当前时间、芯片ID码和硬件标识（通常是MAC地址）、随机数等数据计算生成的。一般来说，可以保证这个值是真正唯一的。</p>
+<blockquote>
+<p>举例来说，每秒产生10亿笔UUID，100年后只产生一次重复的机率是50%。如果地球上每个人都各有6亿笔GUID，发生一次重复的机率是50%。</p>
+</blockquote>
+<p><br>　　范例1：生成 UUID 。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// UUID 大致长这个样子：a79f85e5-7048-4f06-8466-cc6185e70508</span></span><br><span class="line"></span><br><span class="line">UUID.randomUUID().toString()</span><br></pre></td></tr></table></figure></p>
+<pre><code>语句解释：
+-  由于UUID会参考当前时间，所以每次调用都会产生不同UUID，因而我们在获取到UUID后应该将它存储起来。
+</code></pre><p>　　UUID 的缺点也很明显：它可能随着你的 App 被卸载而消失，也可能被用户手动删除。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="https://baike.baidu.com/item/UUID" target="_blank" rel="noopener">百度百科 - UUID</a></li>
+</ul>
+<h1 id="第三节-IMEI-、-MEID-和-IMSI"><a href="#第三节-IMEI-、-MEID-和-IMSI" class="headerlink" title="第三节 IMEI 、 MEID 和 IMSI"></a>第三节 IMEI 、 MEID 和 IMSI</h1><p>　　IMEI 码（国际移动设备识别码），俗称“手机串号”、“手机序列号”，用于在GSM移动网络中识别每一部独立的手机，相当于手机的身份证号码。<br>　　额外的知识点：</p>
+<blockquote>
+<p>1、IMEI码由GSMA协会统一规划，并授权各地区组织进行分配，在中国由工业和信息化部电信终端测试技术协会（TAF）负责国内手机的入网认证。<br>2、IMEI 码适用于 GSM 、 WCDMA 、 LTE 制式的移动电话和卫星电话。<br>3、IMEI 码是一个 15 位或 17 位的数字，数字中间可能有/、-、.或空格隔开。<br>4、双卡双待手机手机有两个IMEI码。<br>5、在大部分终端设备中都可以通过拨号输入*#06#来查询。</p>
+</blockquote>
+<p>　　MEID码 (移动设备识别码)，是CDMA手机的身份识别码，也是每台CDMA手机或通讯平板唯一的识别码。</p>
+<p><br>　　范例1：获取设备ID 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意代码使用需要在 Manifest 配置如下权限（6.0以后需要动态申请）</span></span><br><span class="line"><span class="comment">// &lt;uses-permission android:name="android.permission.READ_PHONE_STATE" /&gt; </span></span><br><span class="line">TelephonyManager tm = (TelephonyManager) <span class="keyword">this</span>.getSystemService(Context.TELEPHONY_SERVICE);  </span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Returns the unique device ID, for example, the IMEI for GSM and the MEID</span></span><br><span class="line"><span class="comment"> * or ESN for CDMA phones. Return null if device ID is not available.</span></span><br><span class="line"><span class="comment"> * 翻译过来就是：这个方法会返回唯一的设备id，</span></span><br><span class="line"><span class="comment"> * 比如在GSM的手机上返回的是IMEI，而在CDMA 手机上返回的是MEID或者ESN。</span></span><br><span class="line"><span class="comment"> * 如果设备id不可读取，那么返回null。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">String deviceid = tm.getDeviceId();</span><br></pre></td></tr></table></figure>
+<pre><code>语句解释：
+-  需要注意的是 getDeviceId 有一个重载方法，用来明确指定 SIM 卡槽对应的 DeviceId ，取值从 0 开始。
+</code></pre><p><br>　　上面的方法在 Android 10 中发生了一些变化，点击查看<a href="https://developer.android.com/about/versions/10/privacy/changes#non-resettable-device-ids" target="_blank" rel="noopener"> 官方文档 </a>，原文截图：</p>
+<center><br><img src="/img/android/android_total004_001.png" alt=""><br></center>
+
+
+<p><br>　　IMSI（国际移动用户识别码），是用于区分蜂窝网络中不同用户的、在所有蜂窝网络中不重复的识别码。在 GSM 、 UMTS 和 LTE 网络中， IMSI 码存储在 SIM 卡，在 CDMA2000 网络中则是直接来自手机，或者 RUIM 。</p>
+<p>　　IMSI 由一串十进制数字组成，最大长度为 15 位。</p>
+<p><br>　　范例2：获取IMSI 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TelephonyManager tm = (TelephonyManager) <span class="keyword">this</span>.getSystemService(Context.TELEPHONY_SERVICE);  </span><br><span class="line">String imsi =tm.getSubscriberId();</span><br></pre></td></tr></table></figure>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/1380000" target="_blank" rel="noopener">Android 上关于设备唯一标识的调研</a></li>
+<li><a href="https://baike.baidu.com/item/%E5%9B%BD%E9%99%85%E7%A7%BB%E5%8A%A8%E7%94%A8%E6%88%B7%E8%AF%86%E5%88%AB%E7%A0%81?fromtitle=imsi&amp;fromid=307249" target="_blank" rel="noopener">百度百科 - 国际移动用户识别码</a></li>
+</ul>
+<h1 id="第四节-Android-ID"><a href="#第四节-Android-ID" class="headerlink" title="第四节 Android ID"></a>第四节 Android ID</h1><p>　　在设备首次启动时，系统会随机一个16位的字符串，它就是 ANDROID ID ，读取它不需要任何权限。<br><br>　　范例1：获取ANDROID_ID 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 打印结果：379611317e827a0f</span></span><br><span class="line">Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID)</span><br></pre></td></tr></table></figure>
+<p><br>　　它的不足之处：</p>
+<blockquote>
+<p>1、刷机、root、恢复出厂设置等会使得 Android ID 改变；<br>2、Android 8.0之后，Android ID 的规则发生了变化，ANDROID ID 的唯一决定于应用签名、用户和设备三者的组合。</p>
+</blockquote>
+<p>　　其中第二点意味着不同App获取到的值是不一样的，这可能对于广告联盟之类的有所影响（如果彼此是用Android ID对比数据的话）。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="https://www.cnblogs.com/kekec/p/12544674.html" target="_blank" rel="noopener">ANDROID_ID</a></li>
+</ul>
+<h1 id="第五节-设备序列号"><a href="#第五节-设备序列号" class="headerlink" title="第五节 设备序列号"></a>第五节 设备序列号</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Build.getSerial()</span><br></pre></td></tr></table></figure>
+<p>　　如果厂商比较规范的话，设备序列号 + Build.MANUFACTURER 应该能唯一标识设备，但现实是并非所有厂商都按规范来，不少设备会得到”unknown“。<br>　　所以设备序列号非常不可靠。</p>
+<h1 id="第六节-Google-ADID"><a href="#第六节-Google-ADID" class="headerlink" title="第六节 Google ADID"></a>第六节 Google ADID</h1><p>　　随着大数据和人工智能时代的到来，数据的价值也逐渐增加，移动终端设备标识码（如IMEI、 MAC、IMSI）等终端设备标识信息的收集和使用成为普遍现象。同时各国对用户隐私保护的要求越来越高，其中 IMEI 等已被部分国家认定为用户隐私的一部分。</p>
+<p>　　没有了 IMEI 码，上面的那些唯一标识各有各的缺点，比如像 ANDROID_ID 各个应用获取到的是不同值，但总有一些场景需要唯一标识一台设备，尤其是广告，所以 Google 搞了这个 ADID ，其本质是一个设备唯一标识。</p>
+<p>　　工作原理很简单：你在 A 应用里点了 Google 的广告，那么 Google 就会通过你设备上的 ADID 来记录你的喜好，当你打开 B 应用时，Google 就会按照你的兴趣推送广告，如此反复，这样在提高广告的转化率的同时也不让你那么讨厌广告。下面是它的架构图：</p>
+<center><br><img src="/img/android/android_total004_002.png" alt=""><br></center>
+
+<p>　　当然 Google 也提供了”重置ADID“和”停用广告个性化“的功能来实现隐私保护：</p>
+<blockquote>
+<p>前者是重新生成新的ADID，这样一来就需要重新训练推送的广告。<br>后者是不允许应用向您展示个性化广告。</p>
+</blockquote>
+<p>　　如果您不是国内的手机，比如三星，那么在系统设置里依次点击”Google设置 -&gt; 广告“，来进入设置界面。</p>
+<p>　　点击查看<a href="https://developer.android.com/training/articles/ad-id" target="_blank" rel="noopener"> 官方文档 </a>。</p>
+<h1 id="第七节-OAID"><a href="#第七节-OAID" class="headerlink" title="第七节 OAID"></a>第七节 OAID</h1><p>　　事实上 OAID 与 GAID 是一个初衷，只不过前者是在国内使用，后者是在国外使用。</p>
+<p>　　想要实现设备唯一，必须是由厂商支持。根据“移动智能终端补充设备标识体系”技术要求，华为、小米、OPPO、vivo、中兴、努比亚、魅族、联想、三星等设备厂商均将逐步实现本标识体系。</p>
+<p>　　更多关于 OAID 和 SDK 接入的流程，请点击查看<a href="http://www.msa-alliance.cn/col.jsp?id=120" target="_blank" rel="noopener"> 移动安全联盟 </a>。</p>
+<p><br><strong>本节参考阅读：</strong></p>
+<ul>
+<li><a href="https://www.jianshu.com/p/1c7ef27d6db4" target="_blank" rel="noopener">简书 - CZKGO</a></li>
+</ul>
+<p><br><br></p>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="android-total-004/"
+           data-title="技巧篇 第二章 设备唯一标识" data-url="http://yoursite.com/android-total-004/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="键盘" />
+          <p class="site-author-name" itemprop="name">键盘</p>
+          <p class="site-description motion-element" itemprop="description">集大家之成，悟小家之道。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">61</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="http://www.gov.cn/" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://weishu.me/" title="weishu" target="_blank">weishu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://ryanhoo.github.io/" title="ryanhoo" target="_blank">ryanhoo</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一节-MAC"><span class="nav-number">1.</span> <span class="nav-text">第一节 MAC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二节-UUID"><span class="nav-number">2.</span> <span class="nav-text">第二节 UUID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三节-IMEI-、-MEID-和-IMSI"><span class="nav-number">3.</span> <span class="nav-text">第三节 IMEI 、 MEID 和 IMSI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四节-Android-ID"><span class="nav-number">4.</span> <span class="nav-text">第四节 Android ID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第五节-设备序列号"><span class="nav-number">5.</span> <span class="nav-text">第五节 设备序列号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第六节-Google-ADID"><span class="nav-number">6.</span> <span class="nav-text">第六节 Google ADID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第七节-OAID"><span class="nav-number">7.</span> <span class="nav-text">第七节 OAID</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">键盘</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"cutler"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("sGcgYofeKOFi2l1XvGrm0PcP-gzGzoHsz", "Sx0mWxj4pkXYm17zT0UnV5Ca");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
